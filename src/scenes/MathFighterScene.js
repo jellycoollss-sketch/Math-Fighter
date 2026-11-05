@@ -180,6 +180,8 @@ export default class MathFighterScene extends Phaser.Scene {
 
 		this.createButtons();
 		this.input.on("gameobjectdown", this.addNumber, this);
+
+		this.generateQuestion();
 	}
 
 	createButtons() {
@@ -293,23 +295,33 @@ export default class MathFighterScene extends Phaser.Scene {
 		return operators[Phaser.Math.Between(0, 3)];
 	}
 	generateQuestion(){
-		let NumberA = Phaser.Math.Between(0, 50)
-		let NumberB = Phaser.Math.Between(0, 50)
+		let numberA = Phaser.Math.Between(0, 50)
+		let numberB = Phaser.Math.Between(0, 50)
 		let operator = this.getOperator()
 		if (operator === '+') {
 			this.question[0] = `${numberA} + ${numberB}`
-			this.question[1] = numberA + number B
+			this.question[1] = numberA + numberB
 		} else if (operator === 'x'){
 			this.question[0] = `${numberA} x ${numberB}`
-			this.question[1] = numberA * number B
+			this.question[1] = numberA * numberB
 		} else if (operator === '-'){
 			if (numberB > numberA) {
 			this.question[0] = `${numberA} - ${numberB}`
-			this.question[1] = numberA - number B
+			this.question[1] = numberA - numberB
 			} else {
 			this.question[0] = `${numberA} - ${numberB}`
-			this.question[1] = numberA - number B
-			}
+			this.question[1] = numberA - numberB
+			} 
+		} else if (operator === ':'){
+			do{
+				numberA = Phaser.Math.Between(0,50)
+				numberB = Phaser.Math.Between(0,50)
+			} while (!Number.isInteger(numberA/numberB))
+			this.question[0] = `${numberA} : ${numberB}`
+			this.question[1] = numberA / numberB
 		}
+		this.questionText?.setText(this.question[0]);
+		const textHalfWidth = this.questionText.width * 0.5;
+		this.questionText?.setX(this.gameHalfWidth - textHalfWidth);
 	}
 }
